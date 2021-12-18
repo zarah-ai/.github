@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Oxygen+Mono&display=swap');
+
+body {
+  font-family: 'Oxygen Mono', monospace;
+  background-color: black;
+  color: white;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+span  {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  font-size: 1.5em;
+  width: 100%;
+  transform: translate(-50%, -50%);
+}
+
+@media (min-width: 400px) {
+  span {
+    font-size: 2em;
+  }
+}
+
+@media (min-width: 600px) {
+  span {
+    font-size: 3em;
+  }
+}
+
+@media (min-width: 800px) {
+  span {
+    font-size: 4.5em;
+  }
+}
+
+@media (min-width: 1000px) {
+  span {
+    font-size: 6em;
+  }
+}
+
+@media (min-width: 1200px) {
+  span {
+    font-size: 7em;
+  }
+}
+
+div {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  width: 100%;
+  transform: translateX(-50%);
+}
+
+a, a:active, a:visited {
+  color: white;
+  width: 2em;
+  height: 2em;
+  padding: 1em;
+  margin: 0.7em;
+  border-radius: 50%;
+  border: 2px solid white;
+  line-height: 2em;
+  vertical-align: middle;
+}
+
+a:hover {
+  color: black;
+  background-color: white;
+}
