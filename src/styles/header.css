@@ -1,0 +1,59 @@
+.header {
+    padding: 100px 20% 25px 20%;
+    max-width: 850px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media only screen and (max-width: 1024px) {
+    .header {
+        padding: 100px 10% 25px 10%;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .header {
+        padding: 100px 5% 25px 5%;
+    }
+}
+
+.header-img {
+    display: inline-block;
+    width: 20%;
+    height: 0;
+    overflow: hidden;
+    padding-bottom: 20%;
+    margin-left: auto;
+    margin-right: auto;
+    border: solid 2px white;
+    border-radius: 50%;
+}
+
+
+.header-text {
+    color: white;
+    text-align: justify;
+}
+
+.header-stats {
+    color: white;
+    text-decoration: none;
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.header-stats span {
+    padding: 15px;
+    display: inline-block;
+}
+
+.header-stats div {
+    height: 1px;
+    background-color: transparent;
+    display: block;
+}
+
+.header-stats:hover div {
+    background-color: white;
+}
