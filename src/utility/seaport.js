@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 
-export const numberOfAssets = 10000;
+export const numberOfAssets = 25;
 const contract = "0x495f947276749ce646f68ac8c248420045cb7b5e";
 const requestOptions = { method: "GET", redirect: "follow" };
 
