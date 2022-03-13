@@ -10,7 +10,7 @@ export class Footer extends Component {
         return (
             <div className="footer">
                 <div className="footer-phantom">
-                    <span> </span>
+                    <span>Copyright © 2022 zarah.ai</span>
                 </div>
                 <div className="footer-content">
                     <span>Copyright © 2022 zarah.ai</span>

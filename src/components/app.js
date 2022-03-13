@@ -3,17 +3,16 @@ import { Component } from "react";
 import { Header } from "./header";
 import { Asset } from "./asset";
 import { Footer } from "./footer";
-import { assets } from "../utility/blockchain";
+import { numberOfAssets } from "../utility/seaport";
 
 export class App extends Component {
     constructor(props) {
         super(props);
-        const id = this.props.id || 0;
+        const id = this.props.id || -1;
 
-        const random = Math.floor(Math.random() * assets.length);
-        this.isRandom = (id <= 0 || id >= assets.length);
-        const index = (this.isRandom ? random : id - 1);
-        this.asset = assets[index];
+        const random = Math.floor(Math.random() * numberOfAssets);
+        this.isRandom = (id < 0 || id >= numberOfAssets);
+        this.asset = (this.isRandom ? random : id);
     }
 
     componentDidMount() {

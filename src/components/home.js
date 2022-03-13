@@ -1,10 +1,9 @@
 import "../styles/home.css";
 import { Component, StrictMode } from "react";
 import { App } from "./app";
-import { assets } from "../utility/blockchain";
 import { HashRouter, Routes, Route, useParams } from "react-router-dom";
 
-const AppWithId = (Component) => {
+const AppWithId = () => {
     const { id } = useParams();
     return <App id={id} />;
 }
