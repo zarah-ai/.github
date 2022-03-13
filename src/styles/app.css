@@ -1,0 +1,15 @@
+.app {
+    font-size: medium;
+}
+
+@media only screen and (max-width: 1024px) {
+    .app {
+        font-size: small;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .app {
+        font-size: xx-small;
+    }
+}

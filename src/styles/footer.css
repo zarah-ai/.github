@@ -1,0 +1,28 @@
+.footer-phantom {
+    display: block;
+    margin: 10px;
+    width: 100%;
+    color: transparent;
+}
+
+.footer-content {
+    padding: 10px;
+    font-size: 12px;
+    text-align: left;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    backdrop-filter: blur(2px);
+    color: #BDBDBD
+}
+
+.footer-contact {
+    float: right;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.footer-contact:hover {
+    text-decoration: underline;
+}
