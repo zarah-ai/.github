@@ -18,7 +18,7 @@ const transformAttrKey = (key) => {
 }
 
 const loadMeta = async (name, cid) => {
-    const id = parseInt(name.split(".")[0], 16);
+    const id = parseInt(name.split(".")[0]);
     const data = await fs.readAsync(dir + "/" + name);
     const attr = JSON.parse(data.toString());
     const metaAttr = Object.keys(attr).map(x => {
@@ -28,7 +28,7 @@ const loadMeta = async (name, cid) => {
         };
     });
     const meta = {
-        image: "ipfs://" + cid + "/" + id.toString(16).padStart(64, "0") + ".png",
+        image: "ipfs://" + cid + "/" + id + ".png",
         external_url: "https://zarah.ai/" + id, 
         attributes: metaAttr
     };
@@ -44,7 +44,7 @@ const main = async () => {
     const imagesCID = await client.storeDirectory(imageFiles);
 
     const metaPaths = files.filter(x => x.endsWith("json"));
-    const metaFiles = await Promise.all(metaPaths.map(x => loadMeta(x, imagesCID)));
+    let metaFiles = await Promise.all(metaPaths.map(x => loadMeta(x, imagesCID)));
     const metaCID = await client.storeDirectory(metaFiles);
 
     return metaCID;

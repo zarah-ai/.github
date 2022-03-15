@@ -1,5 +1,8 @@
+const rl = require("../wrappers/readline")
+
 const main = async () => {
-    const contract = await ethers.getContractAt("Zarah", "0x0A0D4F82110Ab2051DDd4c83b1ae40EfbF78c5E2");
+    const address = await rl.input("Please enter the address of the contract");
+    const contract = await ethers.getContractAt("Zarah", address);
     const transaction = await contract.mintNFTs();
     return transaction.hash;
 };

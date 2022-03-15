@@ -31,7 +31,21 @@ const integer = async (message) => {
     });
 };
 
+const input = async (message) => {
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+    return new Promise((resolve, _) => {
+        rl.question(message + "\n", response => {
+            resolve(response);
+            rl.close();
+        });
+    });
+};
+
 module.exports = {
     confirm: confirm,
-    integer: integer
+    integer: integer,
+    input: input
 };

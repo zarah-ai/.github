@@ -6,13 +6,13 @@ const dir = "assets";
 const createMeta = async (i) => {
     const meta = im.createAttributes();
     const data = JSON.stringify(meta);
-    await fs.writeAsync(dir + "/" + (i+1).toString(16).padStart(64, "0") + ".json", data);
+    await fs.writeAsync(dir + "/" + (i+1) + ".json", data);
     return meta;
 };
 
 const createImage = async (meta, i) => {
     const image = im.createImage(meta);
-    await fs.writeAsync(dir + "/" + (i+1).toString(16).padStart(64, "0") + ".png", image);
+    await fs.writeAsync(dir + "/" + (i+1) + ".png", image);
 };
 
 const main = async () => {

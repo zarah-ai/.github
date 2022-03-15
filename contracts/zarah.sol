@@ -1,22 +1,74 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/interfaces/IERC2981.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 
-contract Zarah is ERC1155, Ownable {
+contract Zarah is ERC721, IERC2981, Ownable {
+    event PermanentURI(string _value, uint256 indexed _id);
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
+    string private _uriBase;
+    address private _proxy;
+    address private _recipient;
+    uint256 private _royalties;
 
-    constructor() ERC1155("ipfs://bafybeifpnppfdquxbczz6ju2jaudjlluuo4dowfdnzwq4vix52ukzm2rji/{id}.json") { }
+    constructor(string memory cid, address proxy) ERC721("zarah.ai", "ZAH") {
+        _proxy = proxy;
+        _uriBase = string(abi.encodePacked("ipfs://", cid, "/"));
+        _recipient = owner();
+        _royalties = 500;
+    }
 
     function mintNFTs() public onlyOwner {
-        for (uint i = 0; i < 25; i++) {
+        for (uint i = 0; i < 100; i++) {
             _tokenIds.increment();
             uint256 newId = _tokenIds.current();
-            _mint(msg.sender, newId, 1, "");
+            _mint(msg.sender, newId);
+            emit PermanentURI(tokenURI(newId), newId);
         }
+    }
+
+    function setRoyalties(address newRecipient, uint256 amount) external onlyOwner {
+        require(newRecipient != address(0), "Royalties: new recipient is the zero address");
+        require(amount < 1001, "Royalties: new amount is more than than 10%");
+        _recipient = newRecipient;
+        _royalties = amount;
+    }
+
+    function royaltyInfo(uint256 token, uint256 price) external view override returns (address receiver, uint256 royaltyAmount) {
+        return (_recipient, (price * _royalties) / 10000);
+    }
+
+    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, IERC165) returns (bool) {
+        return (interfaceId == type(IERC2981).interfaceId || super.supportsInterface(interfaceId));
+    }
+
+    function mixinSender() private view returns (address payable sender) {
+        if (msg.sender == address(this)) {
+            bytes memory array = msg.data;
+            uint256 index = msg.data.length;
+            assembly { sender := and(mload(add(array, index)), 0xffffffffffffffffffffffffffffffffffffffff) }
+        } else {
+            sender = payable(msg.sender);
+        }
+        return sender;
+    }
+
+    function _msgSender() internal override view returns (address) {
+        return mixinSender();
+    }
+
+    function tokenURI(uint256 tokenId) override public view returns (string memory) {
+        return string(abi.encodePacked(_uriBase, Strings.toString(tokenId), ".json"));
+    }
+
+    function isApprovedForAll(address account, address operator) public view virtual override returns (bool) {
+        if (operator == _proxy) { return true; }
+        return super.isApprovedForAll(account, operator);
     }
 
 }
