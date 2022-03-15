@@ -8,11 +8,11 @@ import { numberOfAssets } from "../utility/seaport";
 export class App extends Component {
     constructor(props) {
         super(props);
-        const id = this.props.id || -1;
+        const id = this.props.id || 0;
 
         const random = Math.floor(Math.random() * numberOfAssets);
-        this.isRandom = (id < 0 || id >= numberOfAssets);
-        this.asset = (this.isRandom ? random : id);
+        this.isRandom = (id <= 0 || id >= numberOfAssets);
+        this.asset = (this.isRandom ? random : id-1);
     }
 
     componentDidMount() {
