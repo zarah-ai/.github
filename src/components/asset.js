@@ -32,9 +32,9 @@ export class Asset extends Component {
                 <div className="asset-card">
                     <div className="asset-img"><img src={this.state.image} alt="Logo" width="100%" /></div>
                     <div className="asset-info">
-                        <span className="asset-owner">Owner:<br/ ><a href={this.state.ownerLink} target="_blank">{this.state.owner}</a></span>
+                        <span className="asset-owner">Owner:<br/ ><a href={this.state.ownerLink} target="_blank" rel="noopener noreferrer">{this.state.owner}</a></span>
                         <span className="asset-price">Price:<br/ >{this.state.price} ETH</span>
-                        <a className="asset-link" href={this.state.link} target="_blank">
+                        <a className="asset-link" href={this.state.link} target="_blank" rel="noopener noreferrer">
                             <img src={opensea} alt="Available on OpenSea" height="100%" />
                         </a>
                     </div>

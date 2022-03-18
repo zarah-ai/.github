@@ -28,7 +28,7 @@ export class Header extends Component {
             <div className="header">
                 <div className="header-img"><img src={this.state.image} alt="Logo" width="100%" /></div>
                 <p className="header-text">{this.state.description}</p>
-                <a className="header-stats" href={"https://opensea.io/collection/" + this.state.slug} target="_blank">
+                <a className="header-stats" href={"https://opensea.io/collection/" + this.state.slug} target="_blank" rel="noopener noreferrer">
                     <span>{this.state.items}<br />assets</span>
                     <span>{this.state.owners}<br />owners</span>
                     <span>{this.state.price} ETH<br />floor price</span>
