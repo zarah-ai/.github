@@ -9,7 +9,8 @@
 ## How to deploy contract
 
 * First you will need to creat a .env file (see .env_example).
-* Then you can generate images using: `node src/scripts/generate.js`.
-* Then you need to upload the iamges and metadata to ipfs: `node src/scripts/upload.js`.
-* Finally you can deploy the contract to the blockchain: `npx hardhat run src/scripts/deploy.js`. **This will cost Ether!**
-* And then mint some NFTs: `npx hardhat run src/scripts/mint.js`. **This will cost Ether!**
+* Then you can generate images using: `./run generate`.
+* Then you need to upload the iamges and metadata to ipfs: `./run upload`.
+* Finally you can deploy the contract to the blockchain: `./run deploy`. **This command will cost Ether!**
+* And then mint some NFTs: `./run mint`. **This command will cost Ether!**
+*For more information about a command and the configuration options you can run `./run [command] --help`*

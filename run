@@ -1,0 +1,56 @@
+#!/usr/bin/env node
+const yargs = require("yargs/yargs");
+const yargsHelper = require("yargs/helpers");
+const nodeCommand = require("./src/scripts/command");
+const hardhatCommand = require("./src/scripts/hardhat");
+
+const generateCommand = (yargs) => {
+    return yargs
+        .option("dir", { alias: "d", type: "string", description: "The directory to save the generated files to", default: "assets" })
+        .option("size", { alias: "s", type: "number", description: "The size of the generated images", default: 512 })
+        .option("amount", { alias: "a", type: "number", description: "The amount of images to generate", default: 5 })
+        .option("clean", { alias: "c", type: "boolean", description: "Whether to clean the folder specified by the `dir` option", default: false });
+};
+
+const voronoiCommand = (yargs) => {
+    return yargs
+        .option("path", { alias: "p", type: "string", description: "The path to write the files to", default: "assets/0" })
+        .option("size", { alias: "s", type: "number", description: "The size of the generated voronoi", default: 512 })
+        .option("density", { alias: "d", type: "number", description: "The density of the gnerated voronoi", default: 100 })
+        .option("thickness", { alias: "t", type: "number", description: "The strobe thickness of the gnerated voronoi", default: 5 });
+};
+
+const kaleidoscopeCommand = (yargs) => {
+    return yargs
+        .option("path", { alias: "p", type: "string", description: "The path to write the files to", default: "assets/0" })
+        .option("size", { alias: "s", type: "number", description: "The size of the generated image", default: 512 });
+};
+
+//TODO: upload / compress into CAR
+
+const balanceCommand = (yargs) => {
+    return yargs
+        .option("network", { alias: "n", type: "string", description: "Specify the blockchain network", choices: ["rinkeby", "mainnet"], default: "rinkeby" })
+        .option("account", { alias: "a", type: "string", description: "The account to look up the balance for", demand: true });
+};
+
+const deployCommand = (yargs) => {
+    return yargs
+        .option("network", { alias: "n", type: "string", description: "Specify the blockchain network", choices: ["rinkeby", "mainnet"], default: "rinkeby" })
+        .option("cid", { alias: "c", type: "number", description: "The content identifier of the metadata in IPFS", demand: true });
+};
+
+const mintCommand = (yargs) => {
+    return yargs
+        .option("network", { alias: "n", type: "string", description: "Specify the blockchain network", choices: ["rinkeby", "mainnet"], default: "rinkeby" })
+        .option("address", { alias: "a", type: "string", description: "The address of the deployed contract", demand: true });
+};
+
+yargs(yargsHelper.hideBin(process.argv))
+    .command("generate", "Generate a number of NFTs", generateCommand, nodeCommand)
+    .command("voronoi", "Generate a single voronoi pattern", voronoiCommand, nodeCommand)
+    .command("kaleidoscope", "Generate a single kaleidoscope image", kaleidoscopeCommand, nodeCommand)
+    .command("balance", "Get the balance for a specific account", balanceCommand, hardhatCommand)
+    .command("deploy", "Deploy a smart contract to the blockchain", deployCommand, hardhatCommand)
+    .command("mint", "Mint NFTs for on a deployed smart contract", mintCommand, hardhatCommand)
+    .parse();

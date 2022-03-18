@@ -1,37 +1,42 @@
-const fs = require("../wrappers/fileservice");
-const rl = require("../wrappers/readline");
-const im = require("../wrappers/image");
-const dir = "assets";
+const cp = require("child_process");
+const fs = require("fs");
+const pt = require('path');
 
-const createMeta = async (i) => {
-    const meta = im.createAttributes();
-    const data = JSON.stringify(meta);
-    await fs.writeAsync(dir + "/" + (i+1) + ".json", data);
-    return meta;
+const main = async (args) => {
+    const startTime = new Date();
+
+    const recursive = { recursive: true };
+    if (args.clean && fs.existsSync(args.dir)) {
+        fs.rmSync(args.dir, recursive);
+    }
+    fs.mkdirSync(args.dir, recursive);
+
+    if (!fs.existsSync(args.dir)) {
+        throw new Error("Could not create directory");
+    }
+
+    const files = fs.readdirSync(args.dir).map(x => parseInt(pt.parse(x).name));
+    const start = Math.max(Math.max(...files), 0) + 1;
+    const count = [...Array(args.amount).keys()].map(x => x + start);
+
+    await Promise.all(count.map(i => {
+        return new Promise((resolve, reject) => {
+            const command = ["run", "kaleidoscope", "-p", pt.join(args.dir, i.toString()), "-s", args.size];
+            cp.execFile("node", command, (error, stdout, _) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(stdout);
+                }
+            });
+        });
+    }));
+
+    const endTime = new Date();
+    const time = Math.round((endTime - startTime) * 0.001);
+    const rate =  Math.round(time / args.amount);
+    return "Successfully generated " + args.amount + " images in " + time + " seconds (" + rate + " s/op)" +
+        "\nTo upload the generated files to IPFS:\nXYZ";
 };
 
-const createImage = async (meta, i) => {
-    const image = im.createImage(meta);
-    await fs.writeAsync(dir + "/" + (i+1) + ".png", image);
-};
-
-const main = async () => {
-    await fs.clearFolder(dir);
-
-    const amount = await rl.integer("How many?");
-    const count = [...Array(amount).keys()];
-
-    const metas = await Promise.all(count.map(createMeta));
-    await Promise.all(metas.map(createImage));
-
-    return amount;
-};
-
-main().then((amount) => {
-    console.log("Successfully generated " + amount + " images");
-    process.exit(0);
-}).catch(error => {
-    console.error(error);
-    process.exit(1);
-});
-
+module.exports = main;

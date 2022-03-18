@@ -24,7 +24,7 @@ contract Zarah is ERC721, IERC2981, Ownable {
     }
 
     function mintNFTs() public onlyOwner {
-        for (uint i = 0; i < 100; i++) {
+        for (uint i = 0; i < 22; i++) {
             _tokenIds.increment();
             uint256 newId = _tokenIds.current();
             _mint(msg.sender, newId);
