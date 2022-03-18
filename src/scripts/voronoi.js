@@ -7,7 +7,8 @@ const main = async (args) => {
     const canvas = cv.createCanvas(args.size, args.size);
     const ctx = canvas.getContext("2d");
 
-    const points = [...Array(args.density).keys()].map(() => { 
+    const density = Math.floor((0.1 + 0.2 * Math.random()) * args.size);
+    const points = [...Array(density).keys()].map(() => { 
         return {
             x: Math.random() * args.size,
             y: Math.random() * args.size
@@ -18,7 +19,7 @@ const main = async (args) => {
     var planes = voronoi.compute(points, {xl: 0, xr: args.size, yt: 0, yb: args.size}).cells;
 
     ctx.strokeStyle = "rbg(0,0,0)"
-    ctx.lineWidth = args.thickness;
+    ctx.lineWidth = Math.floor(5 * Math.random());
 
     for (let n = 0; n < planes.length; n++) {
         let edges = planes[n].halfedges.map(x => x.edge);

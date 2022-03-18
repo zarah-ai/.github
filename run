@@ -14,7 +14,7 @@ const generateCommand = (yargs) => {
 
 const voronoiCommand = (yargs) => {
     return yargs
-        .option("path", { alias: "p", type: "string", description: "The path to write the files to", default: "assets/0" })
+        .option("path", { alias: "p", type: "string", description: "The path to write the files to", default: "assets/0.png" })
         .option("size", { alias: "s", type: "number", description: "The size of the generated voronoi", default: 512 })
         .option("density", { alias: "d", type: "number", description: "The density of the gnerated voronoi", default: 100 })
         .option("thickness", { alias: "t", type: "number", description: "The strobe thickness of the gnerated voronoi", default: 5 });
@@ -22,7 +22,7 @@ const voronoiCommand = (yargs) => {
 
 const kaleidoscopeCommand = (yargs) => {
     return yargs
-        .option("path", { alias: "p", type: "string", description: "The path to write the files to", default: "assets/0" })
+        .option("path", { alias: "p", type: "string", description: "The path to write the files to", default: "assets/0.gif" })
         .option("size", { alias: "s", type: "number", description: "The size of the generated image", default: 512 });
 };
 
