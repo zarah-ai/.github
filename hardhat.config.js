@@ -19,7 +19,7 @@ task("deploy", "Deploy a smart contract to the blockchain")
     const Contract = await ethers.getContractFactory("Zarah");
     const contract = await Contract.deploy(args.cid, proxy);
     await contract.deployed();
-    process.stdout.write("Contract deployed to address: " + contract.address + "\nTo mint NFTs using this contract run:\n./run mint -a " + contract.address);
+    process.stdout.write("Contract deployed to address: " + contract.address + "\nTo mint NFTs using this contract run:\n./run mint -a " + contract.address + " -n " + network.name);
 });
 
 task("mint", "Mint NFTs in a smart contract")
