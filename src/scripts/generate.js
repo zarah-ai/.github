@@ -1,42 +1,25 @@
-const cp = require("child_process");
+require("dotenv").config();
 const fs = require("fs");
-const pt = require('path');
+const pt = require("path");
+const ipfs = require("nft.storage");
+const ks = require("./kaleidoscope");
 
 const main = async (args) => {
-    const startTime = new Date();
+    const client = new ipfs.NFTStorage({ token: process.env.IPFS_KEY });
+    const data = await ks({ size: args.size });
+    const blob = new ipfs.Blob([data]);
+    const cid = await client.storeBlob(blob);
 
-    const recursive = { recursive: true };
-    if (args.clean && fs.existsSync(args.dir)) {
-        fs.rmSync(args.dir, recursive);
-    }
-    fs.mkdirSync(args.dir, recursive);
-
-    if (!fs.existsSync(args.dir)) {
-        throw new Error("Could not create directory");
-    }
-
-    const files = fs.readdirSync(args.dir).map(x => parseInt(pt.parse(x).name));
-    const start = Math.max(Math.max(...files), 0) + 1;
-    const count = [...Array(args.amount).keys()].map(x => x + start);
-
-    await Promise.all(count.map(i => {
-        return new Promise((resolve, reject) => {
-            const command = ["run", "kaleidoscope", "-p", pt.join(args.dir, i.toString()), "-s", args.size];
-            cp.execFile("node", command, (error, stdout, _) => {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(stdout);
-                }
-            });
-        });
-    }));
-
-    const endTime = new Date();
-    const time = Math.round((endTime - startTime) * 0.001);
-    const rate =  Math.round(time / args.amount);
-    return "Successfully generated " + args.amount + " images in " + time + " seconds (" + rate + " s/op)" +
-        "\nTo upload the generated files to IPFS:\nXYZ";
+    const id = pt.parse(args.path).name;
+    const meta = {
+        image: "ipfs://" + cid,
+        external_url: "https://zarah.ai/" + id
+    };
+    const metadata = JSON.stringify(meta, null, 4);
+    const metapath = pt.format({ ...pt.parse(args.path), base: "", ext: ".json" });
+    fs.writeFileSync(metapath, metadata);
+    
+    return "Successfully generated image with id " + id + " and uploaded to IPFS with cid " + cid;
 };
 
 module.exports = main;

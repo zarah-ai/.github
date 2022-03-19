@@ -1,4 +1,5 @@
 const cv = require("canvas");
+const pr = require("cli-progress");
 const ge = require("gifencoder");
 const fs = require("fs");
 const pt = require("path");
@@ -9,7 +10,7 @@ const main = async (args) => {
     encoder.start();
     encoder.setRepeat(0);
     encoder.setDelay(16); 
-    encoder.setQuality(10);
+    encoder.setQuality(1);
 
     const width = Math.floor((0.1 + 0.4 * Math.random()) * args.size);
     const height = (Math.sqrt(3) / 2) * width;
@@ -22,6 +23,10 @@ const main = async (args) => {
 
     const xTile = Math.ceil(args.size / (width * 3)) + 1;
     const yTile = Math.ceil(args.size / (height * 1)) + 2;
+
+    const barOptions = { format: "Creating gif [{bar}] {percentage}% | {eta}s ETA", clearOnComplete: true, hideCursor: true }
+    const bar = new pr.SingleBar(barOptions, pr.Presets.legacy);
+    bar.start(args.size, 0);
 
     for (let t = 0; t < args.size; t++) {
         for (let x = 0; x < xTile; x++) {
@@ -44,14 +49,20 @@ const main = async (args) => {
                 }
             }
         }
-
         encoder.addFrame(ctx);
+        bar.update(t + 1);
     }
 
     encoder.finish();
-    const gifPath = pt.format({ ...pt.parse(args.path), base: "", ext: ".gif" })
-    fs.writeFileSync(gifPath, encoder.out.getData());
-    return "Succesfully created kaleidoscope gif at " + gifPath;
+    bar.stop();
+
+    if (args.path != null) {
+        const gifPath = pt.format({ ...pt.parse(args.path), base: "", ext: ".gif" })
+        fs.writeFileSync(gifPath, encoder.out.getData());
+        return "Succesfully created kaleidoscope gif at " + gifPath;
+    } else {
+        return encoder.out.getData();
+    }
 };
 
 module.exports = main;

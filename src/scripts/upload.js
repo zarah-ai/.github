@@ -1,65 +1,22 @@
+require("dotenv").config();
 const ipfs = require("nft.storage");
+const fs = require("fs");
+const pt = require("path");
 
-const main = async (dir) => {
+const main = async (args) => {
+    const client = new ipfs.NFTStorage({ token: process.env.IPFS_KEY });
 
+    const files = fs.readdirSync(args.directory)
+        .filter(name => name.endsWith("json"))
+        .map(name => {
+            const path = pt.join(args.directory, name);
+            const data = fs.readFileSync(path);
+            return new ipfs.File(data, name, { type: "application/json" });
+        });
+
+    const cid = await client.storeDirectory(files);
+
+    return "Metadata deployed to IPFS with cid: " + cid + "\nTo deploy a contract using this cid:\n./run deploy -c " + cid;
 };
 
 module.exports = main;
-
-
-// require("dotenv").config();
-// const { IPFS_KEY } = process.env;
-
-// const client = new ipfs.NFTStorage({ token: IPFS_KEY })
-// const dir = "./assets/";
-
-// const loadImages = async (name) => {
-//     const data = await fs.readAsync(dir + name);
-//     return new ipfs.File([data], name, { type: "image/png" });
-// };
-
-// const transformAttrKey = (key) => {
-//     const capitalized = key.charAt(0).toUpperCase() + key.slice(1);
-//     return capitalized.split(/(?=[A-Z])/).join(" ");
-// }
-
-// const loadMeta = async (name, cid) => {
-//     const id = parseInt(name.split(".")[0]);
-//     const data = await fs.readAsync(dir + name);
-//     const attr = JSON.parse(data.toString());
-//     const metaAttr = Object.keys(attr).map(x => {
-//         return {
-//             trait_type: transformAttrKey(x),
-//             value: attr[x]
-//         };
-//     });
-//     const meta = {
-//         image: "ipfs://" + cid + "/" + id + ".png",
-//         external_url: "https://zarah.ai/" + id, 
-//         attributes: metaAttr
-//     };
-//     const metadata = JSON.stringify(meta, null, 4);
-//     return new ipfs.File(metadata, name, { type: "application/json" });
-// };
-
-// const main = async () => {
-//     const files = await fs.readDirAsync(dir);
-
-//     const imagePaths = files.filter(x => x.endsWith("png"));
-//     const imageFiles = await Promise.all(imagePaths.map(loadImages));
-//     const imagesCID = await client.storeDirectory(imageFiles);
-
-//     const metaPaths = files.filter(x => x.endsWith("json"));
-//     let metaFiles = await Promise.all(metaPaths.map(x => loadMeta(x, imagesCID)));
-//     const metaCID = await client.storeDirectory(metaFiles);
-
-//     return metaCID;
-// };
-  
-// main().then(address => {
-//     console.log("Metadata deployed to IPFS with CID:", address);
-//     process.exit(0);
-// }).catch(error => {
-//     console.error(error);
-//     process.exit(1);
-// });

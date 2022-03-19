@@ -13,13 +13,11 @@ contract Zarah is ERC721, IERC2981, Ownable {
     Counters.Counter private _tokenIds;
     string private _uriBase;
     address private _proxy;
-    address private _recipient;
     uint256 private _royalties;
 
     constructor(string memory cid, address proxy) ERC721("zarah.ai", "ZAH") {
         _proxy = proxy;
         _uriBase = string(abi.encodePacked("ipfs://", cid, "/"));
-        _recipient = owner();
         _royalties = 500;
     }
 
@@ -32,15 +30,14 @@ contract Zarah is ERC721, IERC2981, Ownable {
         }
     }
 
-    function setRoyalties(address newRecipient, uint256 amount) external onlyOwner {
-        require(newRecipient != address(0), "Royalties: new recipient is the zero address");
+    function setRoyalties(uint256 amount) external onlyOwner {
         require(amount < 1001, "Royalties: new amount is more than than 10%");
-        _recipient = newRecipient;
         _royalties = amount;
     }
 
     function royaltyInfo(uint256 token, uint256 price) external view override returns (address receiver, uint256 royaltyAmount) {
-        return (_recipient, (price * _royalties) / 10000);
+        if (ownerOf(token) == owner()) { return (owner(), 0); }
+        return (owner(), (price * _royalties) / 10000);
     }
 
     function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, IERC165) returns (bool) {

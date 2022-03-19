@@ -11,8 +11,8 @@ export class App extends Component {
         const id = this.props.id || 0;
 
         const random = Math.floor(Math.random() * numberOfAssets);
-        this.isRandom = (id <= 0 || id >= numberOfAssets);
-        this.asset = (this.isRandom ? random : id-1);
+        this.isRandom = (id <= 0 || id > numberOfAssets);
+        this.asset = (this.isRandom ? random : id);
     }
 
     componentDidMount() {

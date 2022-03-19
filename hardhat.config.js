@@ -27,7 +27,7 @@ task("mint", "Mint NFTs in a smart contract")
   .setAction(async (args) => {
     const contract = await ethers.getContractAt("Zarah", args.address);
     const transaction = await contract.mintNFTs();
-    process.stdout.write("Minted NFTs in trasaction: " + transaction.hash);
+    process.stdout.write("Minted NFTs in transaction: " + transaction.hash);
 });
 
 module.exports = {

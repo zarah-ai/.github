@@ -18,13 +18,15 @@ const main = async (args) => {
     var voronoi = new vn();
     var planes = voronoi.compute(points, {xl: 0, xr: args.size, yt: 0, yb: args.size}).cells;
 
-    ctx.strokeStyle = "rbg(0,0,0)"
+    const l = Math.round(Math.random() * 100);
+
+    ctx.strokeStyle = "hsl(" + Math.round(Math.random() * 360) + "," + Math.round(Math.random() * 100) + "%," + (100 - l) + "%)";
     ctx.lineWidth = Math.floor(5 * Math.random());
 
     for (let n = 0; n < planes.length; n++) {
         let edges = planes[n].halfedges.map(x => x.edge);
         let current = undefined;
-        ctx.fillStyle = "rgb(" + Math.round(Math.random() * 255) +  "," + Math.round(Math.random() * 255) + "," + Math.round(Math.random() * 255) + ")"
+        ctx.fillStyle = "hsl(" + Math.round(Math.random() * 360) +  "," + Math.round(Math.random() * 100) + "%," + l + "%)";
         ctx.beginPath();
         while (edges.length > 0) {
             if (current == null) {

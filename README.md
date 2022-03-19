@@ -13,4 +13,5 @@
 * Then you need to upload the iamges and metadata to ipfs: `./run upload`.
 * Finally you can deploy the contract to the blockchain: `./run deploy`. **This command will cost Ether!**
 * And then mint some NFTs: `./run mint`. **This command will cost Ether!**
+
 *For more information about a command and the configuration options you can run `./run [command] --help`*
