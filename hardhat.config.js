@@ -12,7 +12,7 @@ task("balance", "Prints an account's balance")
     process.stdout.write("Account " + args.account + " has " + balance + " ETH");
 });
 
-task("deploy", "Deploy a smart contract to the blockchain")
+task("deploy", "Deploys a smart contract to the blockchain")
   .addParam("cid", "The CID of the directory in IPFS")
   .setAction(async (args) => {
     const proxy = (network.name === "rinkeby" ? "0xf57b2c51ded3a29e6891aba85459d600256cf317" : "0xa5409ec958c83c3f309868babaca7c86dcb077c1");
@@ -22,7 +22,7 @@ task("deploy", "Deploy a smart contract to the blockchain")
     process.stdout.write("Contract deployed to address: " + contract.address + "\nTo mint NFTs using this contract run:\n./run mint -a " + contract.address + " -n " + network.name);
 });
 
-task("mint", "Mint NFTs in a smart contract")
+task("mint", "Mints some NFTs in a smart contract")
   .addParam("address", "The address of the contract to mint in")
   .setAction(async (args) => {
     const contract = await ethers.getContractAt("Zarah", args.address);

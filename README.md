@@ -9,9 +9,9 @@
 ## How to deploy a contract
 
 * First you will need to create a .env file (see .env_example).
-* Then you can generate NFTs: `./run worker`.
-* Then you will need to upload the NFT metadata to IPFS: `./run upload`.
-* Finally you can deploy the contract to the blockchain: `./run deploy`. **This command will cost Ether!**
-* And then mint some NFTs: `./run mint`. **This command will cost Ether!**
+* Then you can generate NFTs: `node run worker`.
+* Then you will need to upload the NFT metadata to IPFS: `node run upload`.
+* Finally you can deploy the contract to the blockchain: `node run deploy`. **This command will cost Ether!**
+* And then mint some NFTs: `node run mint`. **This command will cost Ether!**
 
-*For more information about a command and the configuration options you can run `./run [command] --help`*
+*For more information about a command and the configuration options you can run `node run [command] --help`*

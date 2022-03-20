@@ -17,6 +17,7 @@ const main = async (args) => {
     const workItem = async (index) => {
         return new Promise((resolve, reject) => {
             const command = ["run", "generate", "-p", pt.join(args.directory, index.toString()), "-s", args.size];
+            if (args.keep) { command.push("-k") }
             cp.execFile("node", command, (error, stdout, _) => {
                 if (error) {
                     reject(error);
@@ -34,7 +35,9 @@ const main = async (args) => {
         }
     };
 
-    const files = fs.readdirSync(args.directory).map(x => parseInt(pt.parse(x).name));
+    const files = fs.readdirSync(args.directory)
+        .filter(x => x.endsWith(".json"))
+        .map(x => parseInt(pt.parse(x).name));
     const start = Math.max(...files, 0);
 
     const missing = new Set([...Array(start).keys()].map(x => x + 1));

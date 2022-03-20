@@ -14,25 +14,30 @@ const main = async (args) => {
 
     const width = Math.floor((0.1 + 0.4 * Math.random()) * args.size);
     const height = (Math.sqrt(3) / 2) * width;
-    const xPad = Math.floor(Math.random() * width);
-    const yPad = Math.floor(Math.random() * height);
     
     const canvas = cv.createCanvas(args.size, args.size);
     const ctx = canvas.getContext("2d");
     ctx.fillStyle = await vn({ size: args.size });
 
-    const xTile = Math.ceil(args.size / (width * 3)) + 1;
-    const yTile = Math.ceil(args.size / (height * 1)) + 2;
+    const xTile = Math.ceil(args.size / (width * 3)) + 3;
+    const yTile = Math.ceil(args.size / (height * 1)) + 3;
+
+    const rotation = Math.random() * Math.PI * 2;
+    const rotationXOffset = Math.floor(Math.random() * width);
+    const rotationYOffset = Math.floor(Math.random() * height);
+    ctx.translate(args.size * 0.5, args.size * 0.5);
+    ctx.rotate(rotation);
+    ctx.translate(rotationXOffset - args.size * 0.5, rotationYOffset - args.size * 0.5);
 
     const barOptions = { format: "Creating gif [{bar}] {percentage}% | {eta}s ETA", clearOnComplete: true, hideCursor: true }
     const bar = new pr.SingleBar(barOptions, pr.Presets.legacy);
     bar.start(args.size, 0);
 
     for (let t = 0; t < args.size; t++) {
-        for (let x = 0; x < xTile; x++) {
-            for (let y = 0; y < yTile; y++) {
-                const xOffset = width * 3 * x + (y & 1 ? 0.5 : -1) * width + xPad;
-                const yOffset = height * (y - 2) + yPad;
+        for (let x = -1; x < xTile; x++) {
+            for (let y = -1; y < yTile; y++) {
+                const xOffset = width * 3 * x + (y & 1 ? 0.5 : -1) * width;
+                const yOffset = height * (y - 2);
                 for (let z = 0; z < 6; z++) {
                     ctx.save();
                     ctx.translate(xOffset, t + yOffset);
@@ -49,6 +54,7 @@ const main = async (args) => {
                 }
             }
         }
+
         encoder.addFrame(ctx);
         bar.update(t + 1);
     }

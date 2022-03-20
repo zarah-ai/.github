@@ -22,6 +22,7 @@ const generateCommand = (yargs) => {
     return yargs
         .option("size", { alias: "s", type: "number", description: "The size of the generated images", default: 512 })
         .option("path", { alias: "p", type: "string", description: "The path to write the file to", default: "assets/1.json" })
+        .option("keep", { alias: "k", type: "boolean", description: "Whether or not to keep the images locally as well", default: false });
 };
 
 const workerCommand = (yargs) => {
@@ -30,7 +31,8 @@ const workerCommand = (yargs) => {
         .option("size", { alias: "s", type: "number", description: "The size of the generated images", default: 512 })
         .option("amount", { alias: "a", type: "number", description: "The amount of images to generate", default: 25 })
         .option("clean", { alias: "c", type: "boolean", description: "Whether to clean the folder specified by the `dir` option", default: false })
-        .option("threads", { alias: "t", type: "number", description: "The amount of worker threads", default: 8 });
+        .option("threads", { alias: "t", type: "number", description: "The amount of worker threads", default: 8 })
+        .option("keep", { alias: "k", type: "boolean", description: "Whether or not to keep the images locally as well", default: false });
 };
 
 const uploadCommand = (yargs) => {
