@@ -19,8 +19,8 @@ const main = async (args) => {
     const ctx = canvas.getContext("2d");
     ctx.fillStyle = await vn({ size: args.size });
 
-    const xTile = Math.ceil(args.size / (width * 3)) + 3;
-    const yTile = Math.ceil(args.size / (height * 1)) + 3;
+    const xTile = Math.ceil(args.size / (width * 3)) + 4;
+    const yTile = Math.ceil(args.size / (height * 1)) + 4;
 
     const rotation = Math.random() * Math.PI * 2;
     const rotationXOffset = Math.floor(Math.random() * width);
@@ -34,8 +34,8 @@ const main = async (args) => {
     bar.start(args.size, 0);
 
     for (let t = 0; t < args.size; t++) {
-        for (let x = -1; x < xTile; x++) {
-            for (let y = -1; y < yTile; y++) {
+        for (let x = -2; x < xTile; x++) {
+            for (let y = -2; y < yTile; y++) {
                 const xOffset = width * 3 * x + (y & 1 ? 0.5 : -1) * width;
                 const yOffset = height * (y - 2);
                 for (let z = 0; z < 6; z++) {

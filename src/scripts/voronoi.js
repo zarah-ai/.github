@@ -7,7 +7,7 @@ const main = async (args) => {
     const canvas = cv.createCanvas(args.size, args.size);
     const ctx = canvas.getContext("2d");
 
-    const density = Math.floor((0.1 + 0.2 * Math.random()) * args.size);
+    const density = Math.floor((0.05 + 0.10 * Math.random()) * args.size);
     const points = [...Array(density).keys()].map(() => { 
         return {
             x: Math.random() * args.size,
@@ -16,7 +16,7 @@ const main = async (args) => {
     });
 
     var voronoi = new vn();
-    var planes = voronoi.compute(points, {xl: 0, xr: args.size, yt: 0, yb: args.size}).cells;
+    var planes = voronoi.compute(points, {xl: 0, xr: args.size, yt: 0, yb: args.size*0.5}).cells;
 
     const l = Math.round(Math.random() * 100);
 
@@ -61,6 +61,11 @@ const main = async (args) => {
         ctx.stroke()
         ctx.fill();
     }
+
+    const pixels = cv.createCanvas(args.size, args.size*0.5);
+    pixels.getContext("2d").drawImage(canvas, 0, 0);
+    ctx.scale(1, -1);
+    ctx.drawImage(pixels, 0, -args.size);
 
     if (args.path != null) {
         const dir = pt.parse(args.path).dir;
