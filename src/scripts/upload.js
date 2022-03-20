@@ -11,12 +11,12 @@ const main = async (args) => {
         .map(name => {
             const path = pt.join(args.directory, name);
             const data = fs.readFileSync(path);
-            return new ipfs.File(data, name, { type: "application/json" });
+            return new ipfs.File([data], name, { type: "application/json" });
         });
 
     const cid = await client.storeDirectory(files);
 
-    return "Metadata deployed to IPFS with cid: " + cid + "\nTo deploy a contract using this cid:\n./run deploy -c " + cid;
+    return "Metadata deployed to IPFS with cid: " + cid + "\nTo deploy a contract using this cid:\nnode run deploy -c " + cid;
 };
 
 module.exports = main;

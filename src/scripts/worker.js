@@ -64,7 +64,7 @@ const main = async (args) => {
     await Promise.all(threads);
     bar.stop();
 
-    return "Successfully generated " + args.amount + " images\nTo upload the generated files to IPFS:\n./run upload -d " + args.directory;
+    return "Successfully generated " + args.amount + " images\nTo upload the generated files to IPFS:\nnode run upload -d " + args.directory;
 };
 
 module.exports = main;
