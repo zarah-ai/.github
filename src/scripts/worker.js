@@ -18,9 +18,9 @@ const main = async (args) => {
         return new Promise((resolve, reject) => {
             const command = ["run", "generate", "-p", pt.join(args.directory, index.toString()), "-s", args.size];
             if (args.keep) { command.push("-k") }
-            cp.execFile("node", command, (error, stdout, _) => {
+            cp.execFile("node", command, (error, stdout, stderr) => {
                 if (error) {
-                    reject(error);
+                    reject(error + "\n" + stderr);
                 } else {
                     resolve(stdout);
                 }

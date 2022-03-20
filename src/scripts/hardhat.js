@@ -6,9 +6,9 @@ const main = (args) => {
             .filter(x => x.length > 1 && x != "$0")
             .flatMap(x => ["--" + x, args[x]]);
         const command = ["hardhat", args._[0]].concat(arguments);
-        child.execFile("npx", command, (error, stdout, _) => {
+        child.execFile("npx", command, (error, stdout, stderr) => {
             if (error) {
-                reject(error);
+                reject(error + "\n" + stderr);
             } else {
                 resolve(stdout);
             }
