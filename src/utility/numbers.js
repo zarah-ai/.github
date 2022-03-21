@@ -6,4 +6,4 @@ export const formatNumber = (number) => {
     const scale = Math.pow(10, tier * 3);
     const scaled = number / scale;
     return scaled.toFixed(1) + suffix;
-}
+};
