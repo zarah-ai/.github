@@ -1,7 +1,7 @@
 import "../styles/header.css";
 import { Component } from "react";
 import { collectionInfo } from "../utility/seaport";
-import { formatNumber } from "../utility/numbers";
+import { formatNumber, formatCurrency } from "../utility/numbers";
 
 export class Header extends Component {
     constructor(props) {
@@ -16,8 +16,8 @@ export class Header extends Component {
                 image: x.image_url,
                 items: formatNumber(x.stats.count),
                 owners: formatNumber(x.stats.num_owners),
-                price: formatNumber(x.stats.floor_price),
-                traded: formatNumber(x.stats.total_volume),
+                price: formatCurrency(x.stats.floor_price),
+                traded: formatCurrency(x.stats.total_volume),
                 slug: x.slug
             });
         });

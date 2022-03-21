@@ -2,7 +2,7 @@ import "../styles/asset.css";
 import opensea from "../resources/opensea.webp"
 import { Component } from "react";
 import { assetPrice, assetMetadata } from "../utility/seaport";
-import { formatNumber } from "../utility/numbers";
+import { formatCurrency } from "../utility/numbers";
 
 export class Asset extends Component {
     constructor(props) {
@@ -21,7 +21,7 @@ export class Asset extends Component {
         });
         assetPrice(this.props.asset).then(x => {
             this.setState({
-                price: formatNumber(x)
+                price: formatCurrency(x)
             });
         });
     }
