@@ -1,6 +1,7 @@
 require("@nomiclabs/hardhat-ethers");
+require("@nomiclabs/hardhat-etherscan");
 require("dotenv").config();
-const { MAINNET_URL, RINKEBY_URL, MNEMONIC } = process.env;
+const { MAINNET_URL, RINKEBY_URL, MNEMONIC, ETHER_KEY } = process.env;
 const wallet = require("ethers").Wallet.fromMnemonic(MNEMONIC);
 
 task("balance", "Prints an account's balance")
@@ -50,6 +51,9 @@ module.exports = {
         rinkeby: {
             url: RINKEBY_URL,
             accounts: [ wallet.privateKey ]
-        }
+        },
     },
+    etherscan: {
+      apiKey: ETHER_KEY
+   },
 }
