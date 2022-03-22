@@ -1,5 +1,6 @@
 import "../styles/asset.css";
 import opensea from "../resources/opensea.webp"
+import loader from "../resources/loader.webp"
 import { Component } from "react";
 import { assetPrice, assetMetadata } from "../utility/seaport";
 import { formatCurrency } from "../utility/numbers";
@@ -7,7 +8,7 @@ import { formatCurrency } from "../utility/numbers";
 export class Asset extends Component {
     constructor(props) {
         super(props);
-        this.state = { image: "", price: 0, owner: "", ownerLink: "", link: "" };
+        this.state = { image: "", price: 0, owner: "", ownerLink: "", link: "", loaded: false };
     }
 
     componentDidMount() {
@@ -30,7 +31,10 @@ export class Asset extends Component {
         return (
             <div className="asset">
                 <div className="asset-card">
-                    <div className="asset-img"><img src={this.state.image} alt="Logo" width="100%" /></div>
+                    <div className="asset-img">
+                        <img src={this.state.image} alt="Logo" width="100%" style={this.state.loaded ? {} : {display: "none"}} onLoad={() => this.setState({loaded: true})} />
+                        <img src={loader} alt="Loader" width="100%" style={this.state.loaded ? {display: "none"} : {}} />
+                    </div>
                     <div className="asset-info">
                         <span className="asset-owner">Owner:<br/ ><a href={this.state.ownerLink} target="_blank" rel="noopener noreferrer">{this.state.owner}</a></span>
                         <span className="asset-price">Price:<br/ >{this.state.price} ETH</span>
