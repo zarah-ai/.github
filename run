@@ -18,6 +18,13 @@ const kaleidoscopeCommand = (yargs) => {
         .option("size", { alias: "s", type: "number", description: "The size of the generated image", default: 512 });
 };
 
+const gradientCommand = (yargs) => {
+    return yargs
+        .option("path", { alias: "p", type: "string", description: "The path to write the file to", default: "assets/1.gif" })
+        .option("width", { alias: "w", type: "number", description: "The width of the generated image", default: 600 })
+        .option("height", { alias: "h", type: "number", description: "The height of the generated image", default: 400 });
+};
+
 const generateCommand = (yargs) => {
     return yargs
         .option("size", { alias: "s", type: "number", description: "The size of the generated images", default: 512 })
@@ -61,6 +68,7 @@ const mintCommand = (yargs) => {
 yargs(yargsHelper.hideBin(process.argv))
     .command("voronoi", "Generate a single voronoi pattern", voronoiCommand, nodeCommand)
     .command("kaleidoscope", "Generate a single kaleidoscope image", kaleidoscopeCommand, nodeCommand)
+    .command("gradient", "Generate a single gradient image", gradientCommand, nodeCommand)
     .command("generate", "Generate a single metadata file", generateCommand, nodeCommand)
     .command("worker", "Generate multiple metadatas in parallel", workerCommand, nodeCommand)
     .command("upload", "Create NFT metadata and upload to IPFS", uploadCommand, nodeCommand)
