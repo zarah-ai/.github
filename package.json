@@ -40,6 +40,6 @@
     "gifencoder": "^2.0.1",
     "nft.storage": "^6.0.2",
     "voronoi": "^1.0.0",
-    "yargs": "^17.4.0"
+    "yargs": "^17.5.0"
   }
 }
